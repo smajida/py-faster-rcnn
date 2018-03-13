@@ -28,11 +28,13 @@ class pascal_voc(imdb):
                             else devkit_path
         self._data_path = os.path.join(self._devkit_path, 'VOC' + self._year)
         self._classes = ('__background__', # always index 0
-                          'large-vehicle', 'swimming-pool', 'helicopter', 'bridge', 'plane',
-              'ship', 'soccer-ball-field', 'basketball-court','ground-track-field',
-              'small-vehicle', 'harbor', 'baseball-diamond','tennis-court', 'roundabout', 'storage-tank')
+                         'aeroplane', 'bicycle', 'bird', 'boat',
+                         'bottle', 'bus', 'car', 'cat', 'chair',
+                         'cow', 'diningtable', 'dog', 'horse',
+                         'motorbike', 'person', 'pottedplant',
+                         'sheep', 'sofa', 'train', 'tvmonitor')
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
-        self._image_ext = '.JPG'
+        self._image_ext = '.jpg'
         self._image_index = self._load_image_set_index()
         # Default to roidb handler
         self._roidb_handler = self.selective_search_roidb
@@ -177,28 +179,20 @@ class pascal_voc(imdb):
 
     def _load_pascal_annotation(self, index):
         """
-             Load image and bounding boxes info from XML file in the PASCAL VOC
-             format.
-             """
-
-        ## TODO changed here
+        Load image and bounding boxes info from XML file in the PASCAL VOC
+        format.
+        """
         filename = os.path.join(self._data_path, 'Annotations', index + '.xml')
         tree = ET.parse(filename)
         objs = tree.findall('object')
-        source = tree.find('source')
-        imagesize = source.find('imagesize')
-        image_height = int(imagesize.find('nrows').text)
-        image_width = int(imagesize.find('ncols').text)
-        ''''
         if not self.config['use_diff']:
             # Exclude the samples labeled as difficult
             non_diff_objs = [
-                obj for obj in objs if obj.find('difficult').text == 'e']
+                obj for obj in objs if int(obj.find('difficult').text) == 0]
             # if len(non_diff_objs) != len(objs):
             #     print 'Removed {} difficult objects'.format(
             #         len(objs) - len(non_diff_objs))
             objs = non_diff_objs
-        '''
         num_objs = len(objs)
 
         boxes = np.zeros((num_objs, 4), dtype=np.uint16)
@@ -207,105 +201,27 @@ class pascal_voc(imdb):
         # "Seg" area for pascal is just the box area
         seg_areas = np.zeros((num_objs), dtype=np.float32)
 
-        ## TODO changed here
         # Load object bounding boxes into a data frame.
-        x1 = []
-        y1 = []
-        x2 = []
-        y2 = []
         for ix, obj in enumerate(objs):
-            xs = []
-            ys = []
-            for pt in obj.findall('pt'):
-                x = float(pt.find('x').text)
-                y = float(pt.find('y').text)
-                '''
-                if not 1 <= rawx <= image_width:
-                    if image_width + 1<= rawx <= image_width + 2:
-                        rawx = image_width
-                    else:
-                        print rawx
-                        print tree.find('imgfilename').text
-                        print obj.find('name').text
-                        print image_height
-                        print image_width
-                        raise AssertionError('point more than 2 pixel bigger than width or smaller than one')
-                if not 1 <= rawy <= image_height:
-                    if image_height + 1<= rawy <= image_height + 2:
-                        rawy = image_height
-                    else:
-                        print rawy
-                        print tree.find('imgfilename').text
-                        print obj.find('name').text
-                        print image_height
-                        print image_width
-                        raise AssertionError('point more than 2 pixel bigger than height or smaller than one')
-                '''
-                xs.extend([x])
-                ys.extend([y])
-            #print 'xs is {}'.format(xs)
-            #print 'ys is {}'.format(ys)
-            if sum([1 for x in xs if not 1 <= x <= image_width]) > 3:
-                if not ((sum([1 for x in xs if not x < 0]) == 2) and (sum([1 for x in xs if not x > image_width]) == 2)):
-                    print xs
-                    print ys
-                    print tree.find('imgfilename').text
-                    print obj.find('name').text
-                    print image_height
-                    print image_width
-                    raise AssertionError('x points are out')
-
-
-            if sum([1 for y in ys if not 1 <= y <= image_height]) > 3:
-                if not ((sum([1 for y in ys if not y < 0]) == 2) and (sum([1 for y in ys if not y > image_height]) == 2)):
-                    print xs
-                    print ys
-                    print tree.find('imgfilename').text
-                    print obj.find('name').text
-                    print image_height
-                    print image_width
-                    raise AssertionError('y points are out')
-
-            ############## HBB
-            xss = [min(xs), max(xs), max(xs), min(xs)]
-            yss = [min(ys), min(ys), max(ys), max(ys)]
-            x1 = float(xss[0])
-            y1 = float(yss[0])
-            x2 = float(xss[2])
-            y2 = float(yss[2])
-
-            if x1 < 1.0: x1 = 1.0
-            if y1 < 1.0: y1 = 1.0
-            if x2 > image_width: x2 = image_width
-            if y2 > image_height: y2 = image_height
-            # Make pixel indexes 0-based original faster rcnn
-            x1 -= 1
-            y1 -= 1
-            x2 -= 1
-            y2 -= 1
-            # x1 = float(bbox.find('xmin').text) - 1
-            # y1 = float(bbox.find('ymin').text) - 1
-            # x2 = float(bbox.find('xmax').text) - 1
-            # y2 = float(bbox.find('ymax').text) - 1
-
-
-            #print 'read coordinates are xmin {}, ymin {}, xmax{}, ymax{}'.format(x1,y1,x2,y2)
-
+            bbox = obj.find('bndbox')
+            # Make pixel indexes 0-based
+            x1 = float(bbox.find('xmin').text) - 1
+            y1 = float(bbox.find('ymin').text) - 1
+            x2 = float(bbox.find('xmax').text) - 1
+            y2 = float(bbox.find('ymax').text) - 1
             cls = self._class_to_ind[obj.find('name').text.lower().strip()]
-            #print 'class is {}'.format(cls)
             boxes[ix, :] = [x1, y1, x2, y2]
             gt_classes[ix] = cls
-            #print 'read coordinates are box {}, class {}'.format(boxes[ix, :], gt_classes[ix])
             overlaps[ix, cls] = 1.0
             seg_areas[ix] = (x2 - x1 + 1) * (y2 - y1 + 1)
-        assert (boxes[:, 2] >= boxes[:, 0]).all()
+
         overlaps = scipy.sparse.csr_matrix(overlaps)
 
-        return {'boxes': boxes,
+        return {'boxes' : boxes,
                 'gt_classes': gt_classes,
-                'gt_overlaps': overlaps,
-                'flipped': False,
-                'seg_areas': seg_areas}
+                'gt_overlaps' : overlaps,
+                'flipped' : False,
+                'seg_areas' : seg_areas}
 
     def _get_comp_id(self):
         comp_id = (self._comp_id + '_' + self._salt if self.config['use_salt']

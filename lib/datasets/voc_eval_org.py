@@ -12,80 +12,18 @@ import numpy as np
 def parse_rec(filename):
     """ Parse a PASCAL VOC xml file """
     tree = ET.parse(filename)
-    objs = tree.findall('object')
-    source = tree.find('source')
-    imagesize = source.find('imagesize')
-    image_height = int(imagesize.find('nrows').text)
-    image_width = int(imagesize.find('ncols').text)
-    num_objs = len(objs)
-    y1 = []
-    x2 = []
-    y2 = []
     objects = []
-    for ix, obj in enumerate(objs):
-        xs = []
-        ys = []
-        for pt in obj.findall('pt'):
-            x = float(pt.find('x').text)
-            y = float(pt.find('y').text)
-            xs.extend([x])
-            ys.extend([y])
-
-        if sum([1 for x in xs if not 1 <= x <= image_width]) > 3:
-            if not ((sum([1 for x in xs if not x < 0]) == 2) and (sum([1 for x in xs if not x > image_width]) == 2)):
-                print
-                xs
-                print
-                ys
-                print
-                tree.find('imgfilename').text
-                print
-                obj.find('name').text
-                print
-                image_height
-                print
-                image_width
-                raise AssertionError('x points are out')
-
-        if sum([1 for y in ys if not 1 <= y <= image_height]) > 3:
-            if not ((sum([1 for y in ys if not y < 0]) == 2) and (sum([1 for y in ys if not y > image_height]) == 2)):
-                print
-                xs
-                print
-                ys
-                print
-                tree.find('imgfilename').text
-                print
-                obj.find('name').text
-                print
-                image_height
-                print
-                image_width
-                raise AssertionError('y points are out')
-
-        xss = [min(xs), max(xs), max(xs), min(xs)]
-        yss = [min(ys), min(ys), max(ys), max(ys)]
-        x1 = float(xss[0])
-        y1 = float(yss[0])
-        x2 = float(xss[2])
-        y2 = float(yss[2])
-
-        if x1 < 1.0: x1 = 1.0
-        if y1 < 1.0: y1 = 1.0
-        if x2 > image_width: x2 = image_width
-        if y2 > image_height: y2 = image_height
-        # Make pixel indexes 0-based original faster rcnn
-        x1 -= 1
-        y1 -= 1
-        x2 -= 1
-        y2 -= 1
+    for obj in tree.findall('object'):
         obj_struct = {}
-        obj_struct['name'] = obj.find('name').text.lower().strip()
-        obj_struct['difficult'] = obj.find('difficult').text
-        obj_struct['bbox'] = [x1,
-                              y1,
-                              x2,
-                              y2]
+        obj_struct['name'] = obj.find('name').text
+        obj_struct['pose'] = obj.find('pose').text
+        obj_struct['truncated'] = int(obj.find('truncated').text)
+        obj_struct['difficult'] = int(obj.find('difficult').text)
+        bbox = obj.find('bndbox')
+        obj_struct['bbox'] = [int(bbox.find('xmin').text),
+                              int(bbox.find('ymin').text),
+                              int(bbox.find('xmax').text),
+                              int(bbox.find('ymax').text)]
         objects.append(obj_struct)
 
     return objects
@@ -203,10 +141,6 @@ def voc_eval(detpath,
     image_ids = [x[0] for x in splitlines]
     confidence = np.array([float(x[1]) for x in splitlines])
     BB = np.array([[float(z) for z in x[2:]] for x in splitlines])
-    #print splitlines
-    #print image_ids
-    #print confidence
-    #print BB
 
     # sort by confidence
     sorted_ind = np.argsort(-confidence)

@@ -14,6 +14,9 @@ from utils.timer import Timer
 import numpy as np
 import os
 
+# due to error: AttributeError: 'module' object has no attribute 'text_format' was added.
+import google.protobuf.text_format
+
 from caffe.proto import caffe_pb2
 import google.protobuf as pb2
 
