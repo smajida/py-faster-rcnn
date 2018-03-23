@@ -197,7 +197,8 @@ Output is written underneath `$FRCN_ROOT/output`.
 
 ```Shell
 cd $FRCN_ROOT
-./experiments/scripts/faster_rcnn_end2end.sh [GPU_ID] [NET] [--set ...]
+./experiments/scripts/faster_rcnn_end2end.sh [GPU_ID] [NET] [--set ...] [DATASET]
+e.g. ./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
 # GPU_ID is the GPU you want to train on
 # NET in {ZF, VGG_CNN_M_1024, VGG16} is the network arch to use
 # --set ... allows you to specify fast_rcnn.config options, e.g.
