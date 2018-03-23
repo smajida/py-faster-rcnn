@@ -220,3 +220,13 @@ Test outputs are saved under:
 ```
 output/<experiment directory>/<dataset name>/<network snapshot name>/
 ```
+
+
+## Error
+TypeError: slice indices must be integers or None or have an __index__ method
+
+Seems like the latest version of numpy (1.12.0) does not support floats as indexes. From release notes:
+
+Indexing with floats raises IndexError, e.g., a[0, 0.0].
+
+Downgrading to numpy 1.11.0 worked for me.
