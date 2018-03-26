@@ -34,8 +34,13 @@ import numpy as np
 #       [ -79., -167.,   96.,  184.],
 #       [-167., -343.,  184.,  360.]])
 
+
+ # add more anchors by adding more scales and ratios
+#def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
+#                     scales=2**np.arange(3, 6)):
 def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
-                     scales=2**np.arange(3, 6)):
+                     scales=[1, 2, 3, 4, 2**np.arange(3, 7)):
+
     """
     Generate anchor (reference) windows by enumerating aspect ratios X
     scales wrt a reference (0, 0, 15, 15) window.

@@ -26,7 +26,12 @@ class ProposalLayer(caffe.Layer):
         layer_params = yaml.load(self.param_str_)
 
         self._feat_stride = layer_params['feat_stride']
-        anchor_scales = layer_params.get('scales', (8, 16, 32))
+
+        # add more anchors by adding more scales
+        #anchor_scales = layer_params.get('scales', (8, 16, 32))
+        anchor_scales = layer_params.get('scales', (1, 2, 3, 4, 8, 16, 32, 64))
+
+
         self._anchors = generate_anchors(scales=np.array(anchor_scales))
         self._num_anchors = self._anchors.shape[0]
 
