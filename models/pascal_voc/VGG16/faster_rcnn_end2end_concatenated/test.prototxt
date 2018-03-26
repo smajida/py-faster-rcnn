@@ -402,7 +402,7 @@ layer {
 layer {
   name: "rpn_conv/3x3"
   type: "Convolution"
-  bottom: "conv5_3"
+  bottom: "conv_concatenated"
   top: "rpn/output"
   param { lr_mult: 1.0 decay_mult: 1.0 }
   param { lr_mult: 2.0 decay_mult: 0 }
