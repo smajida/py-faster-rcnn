@@ -21,10 +21,7 @@ array=( $@ )
 len=${#array[@]}
 EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
-
-
-AUG=NoAugmentation
-
+AUG=NoAugmentation_8Scales_3Ratios
 case $DATASET in
   pascal_voc)
     TRAIN_IMDB="voc_2007_train"

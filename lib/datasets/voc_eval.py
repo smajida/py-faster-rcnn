@@ -80,7 +80,8 @@ def parse_rec(filename):
         x2 -= 1
         y2 -= 1
         obj_struct = {}
-        obj_struct['name'] = obj.find('name').text.lower().strip()
+        print "name is {}".format(obj.find('name').text)
+        obj_struct['name'] = obj.find('name').text #.lower().strip()
         obj_struct['difficult'] = obj.find('difficult').text
         obj_struct['bbox'] = [x1,
                               y1,
