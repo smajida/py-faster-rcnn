@@ -384,6 +384,19 @@ layer {
   top: "conv5_3"
 }
 
+
+#=====Concatenation========
+
+layer {
+  name: "concat-aerial"
+  type: "Concat"
+  bottom: "conv5_1"
+  bottom: "conv5_2"
+  bottom: "conv5_3"
+  top: "conv_concatenated"
+}
+
+
 #========= RPN ============
 
 layer {
