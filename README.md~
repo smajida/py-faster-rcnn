@@ -229,5 +229,4 @@ Seems like the latest version of numpy (1.12.0) does not support floats as index
 
 Indexing with floats raises IndexError, e.g., a[0, 0.0].
 
-## Solution 
 Downgrading to numpy 1.11.0 worked for me.
