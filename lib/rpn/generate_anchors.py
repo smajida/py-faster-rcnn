@@ -34,12 +34,43 @@ import numpy as np
 #       [ -79., -167.,   96.,  184.],
 #       [-167., -343.,  184.,  360.]])
 
+# after adding more scales
+'''
+[ 1  2  3  4  8 16 32]
+[ 1  2  3  4  8 16 32]
+[ 1  2  3  4  8 16 32]
+[ 1  2  3  4  8 16 32]
+[[  -3.5    2.    18.5   13. ]
+ [ -15.    -4.    30.    19. ]
+ [ -26.5  -10.    41.5   25. ]
+ [ -38.   -16.    53.    31. ]
+ [ -84.   -40.    99.    55. ]
+ [-176.   -88.   191.   103. ]
+ [-360.  -184.   375.   199. ]
+ [   0.     0.    15.    15. ]
+ [  -8.    -8.    23.    23. ]
+ [ -16.   -16.    31.    31. ]
+ [ -24.   -24.    39.    39. ]
+ [ -56.   -56.    71.    71. ]
+ [-120.  -120.   135.   135. ]
+ [-248.  -248.   263.   263. ]
+ [   2.5   -3.    12.5   18. ]
+ [  -3.   -14.    18.    29. ]
+ [  -8.5  -25.    23.5   40. ]
+ [ -14.   -36.    29.    51. ]
+ [ -36.   -80.    51.    95. ]
+ [ -80.  -168.    95.   183. ]
+ [-168.  -344.   183.   359. ]]
 
+'''
 # add more anchors by adding more scales and ratios
-def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
-                     scales=2**np.arange(3, 6)):
+#def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
+#                     scales=2**np.arange(3, 6)):
 
-    scales=[1, 2, 3, 4] + list(2**np.arange(3, 7))
+def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
+                     scales= np.append(np.arange(1, 5), 2**np.arange(3, 6))):
+
+
     """
     Generate anchor (reference) windows by enumerating aspect ratios X
     scales wrt a reference (0, 0, 15, 15) window.
