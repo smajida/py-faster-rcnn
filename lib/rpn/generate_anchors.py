@@ -36,10 +36,12 @@ import numpy as np
 
 # after adding more scales
 '''
-[ 1  2  3  4  8 16 32]
-[ 1  2  3  4  8 16 32]
-[ 1  2  3  4  8 16 32]
-[ 1  2  3  4  8 16 32]
+[ 1  2  3  4  8 16 32 64]
+[ 1  2  3  4  8 16 32 64]
+[ 1  2  3  4  8 16 32 64]
+[ 1  2  3  4  8 16 32 64]
+
+without 64
 [[  -3.5    2.    18.5   13. ]
  [ -15.    -4.    30.    19. ]
  [ -26.5  -10.    41.5   25. ]
@@ -68,7 +70,7 @@ import numpy as np
 #                     scales=2**np.arange(3, 6)):
 
 def generate_anchors(base_size=16, ratios=[0.5, 1, 2],
-                     scales= np.append(np.arange(1, 5), 2**np.arange(3, 6))):
+                     scales= np.append(np.arange(1, 5), 2**np.arange(3, 7))):
 
 
     """
