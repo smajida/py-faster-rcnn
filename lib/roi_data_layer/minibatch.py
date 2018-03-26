@@ -9,6 +9,8 @@
 
 import numpy as np
 import numpy.random as npr
+import sys
+sys.path.append('/usr/local/opencv-3.1/lib/python2.7/dist-packages/')
 import cv2
 from fast_rcnn.config import cfg
 from utils.blob import prep_im_for_blob, im_list_to_blob

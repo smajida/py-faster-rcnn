@@ -22,9 +22,12 @@ len=${#array[@]}
 EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
+
+AUG=NoAugmentation
+
 case $DATASET in
   pascal_voc)
-    TRAIN_IMDB="voc_2007_trainval"
+    TRAIN_IMDB="voc_2007_train"
     TEST_IMDB="voc_2007_val"
     PT_DIR="pascal_voc"
     ITERS=70000
@@ -44,7 +47,7 @@ case $DATASET in
     ;;
 esac
 
-LOG="experiments/logs/faster_rcnn_end2end_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
+LOG="experiments/logs/faster_rcnn_end2end_${NET}_${EXTRA_ARGS_SLUG}_${AUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
