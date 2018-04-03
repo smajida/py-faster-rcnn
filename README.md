@@ -231,3 +231,7 @@ Indexing with floats raises IndexError, e.g., a[0, 0.0].
 
 ## Solution 
 Downgrading to numpy 1.11.0 worked for me.
+
+
+# if there is an errors which says in pascal_voc: Keyerror: one of images name
+delete py-faster-rcnn/data/VOCdevkit/annotations_cache/annots.pkl
