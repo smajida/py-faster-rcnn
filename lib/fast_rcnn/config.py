@@ -35,7 +35,7 @@ __C.TRAIN = edict()
 
 # Scales to use during training (can list multiple scales)
 # Each scale is the pixel size of an image's shortest side
-__C.TRAIN.SCALES = (600,)
+__C.TRAIN.SCALES = (200, 600, 1000, 1800)
 
 # Max pixel size of the longest side of a scaled input image
 __C.TRAIN.MAX_SIZE = 1000
@@ -132,7 +132,7 @@ __C.TEST = edict()
 
 # Scales to use during testing (can list multiple scales)
 # Each scale is the pixel size of an image's shortest side
-__C.TEST.SCALES = (600,)
+__C.TEST.SCALES = (200, 600, 1000, 1800)
 
 # Max pixel size of the longest side of a scaled input image
 __C.TEST.MAX_SIZE = 1000
@@ -265,6 +265,7 @@ def cfg_from_file(filename):
 def cfg_from_list(cfg_list):
     """Set config keys via list (e.g., from command line)."""
     from ast import literal_eval
+    print cfg_list
     assert len(cfg_list) % 2 == 0
     for k, v in zip(cfg_list[0::2], cfg_list[1::2]):
         key_list = k.split('.')
