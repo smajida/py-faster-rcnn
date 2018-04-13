@@ -364,7 +364,6 @@ layer {
   top: "conv5_3"
 }
 
-
 #=====Concatenation========
 
 layer {
