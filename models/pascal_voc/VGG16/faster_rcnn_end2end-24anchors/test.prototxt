@@ -384,25 +384,12 @@ layer {
   top: "conv5_3"
 }
 
-
-#=====Concatenation========
-
-layer {
-  name: "concat-aerial"
-  type: "Concat"
-  bottom: "conv5_1"
-  bottom: "conv5_2"
-  bottom: "conv5_3"
-  top: "conv_concatenated"
-}
-
-
 #========= RPN ============
 
 layer {
   name: "rpn_conv/3x3"
   type: "Convolution"
-  bottom: "conv5_3" #"conv_concatenated"
+  bottom: "conv5_3"
   top: "rpn/output"
   param { lr_mult: 1.0 decay_mult: 1.0 }
   param { lr_mult: 2.0 decay_mult: 0 }

@@ -80,7 +80,7 @@ def parse_rec(filename):
         x2 -= 1
         y2 -= 1
         obj_struct = {}
-        print "name is {}".format(obj.find('name').text)
+        # print "name is {}".format(obj.find('name').text)
         obj_struct['name'] = obj.find('name').text #.lower().strip()
         obj_struct['difficult'] = obj.find('difficult').text
         obj_struct['bbox'] = [x1,
@@ -170,6 +170,8 @@ def voc_eval(detpath,
         recs = {}
         for i, imagename in enumerate(imagenames):
             recs[imagename] = parse_rec(annopath.format(imagename))
+            #print imagename
+            #print recs[imagename]
             if i % 100 == 0:
                 print 'Reading annotation for {:d}/{:d}'.format(
                     i + 1, len(imagenames))
@@ -186,6 +188,7 @@ def voc_eval(detpath,
     class_recs = {}
     npos = 0
     for imagename in imagenames:
+        #print('classname is {}'.format(classname))
         R = [obj for obj in recs[imagename] if obj['name'] == classname]
         bbox = np.array([x['bbox'] for x in R])
         difficult = np.array([x['difficult'] for x in R]).astype(np.bool)

@@ -254,12 +254,15 @@ def test_net(net, imdb, max_per_image=100, thresh=0.05, vis=False):
             box_proposals = roidb[i]['boxes'][roidb[i]['gt_classes'] == 0]
 
         im = cv2.imread(imdb.image_path_at(i))
+        #print imdb.image_path_at(i)
+
         _t['im_detect'].tic()
         scores, boxes = im_detect(net, im, box_proposals)
         _t['im_detect'].toc()
 
         _t['misc'].tic()
         # skip j = 0, because it's the background class
+
         for j in xrange(1, imdb.num_classes):
             inds = np.where(scores[:, j] > thresh)[0]
             cls_scores = scores[inds, j]
@@ -291,5 +294,8 @@ def test_net(net, imdb, max_per_image=100, thresh=0.05, vis=False):
     with open(det_file, 'wb') as f:
         cPickle.dump(all_boxes, f, cPickle.HIGHEST_PROTOCOL)
 
-    print 'Evaluating detections'
+    #det_file = '/home/azim_se/MyProjects/ECCV18/py-faster-rcnn/output/faster_rcnn_end2end/voc_2007_val/vgg16_faster_rcnn_iter_70000/detections.pkl'
+    #with open(det_file, 'rb') as f:
+    #    all_boxes= cPickle.load(f)
+    #print 'Evaluating detections'
     imdb.evaluate_detections(all_boxes, output_dir)

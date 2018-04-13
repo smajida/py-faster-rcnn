@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #!/bin/bash
 # Usage:
 # ./experiments/scripts/faster_rcnn_end2end.sh GPU NET DATASET [options args to {train,test}_net.py]
@@ -13,9 +15,12 @@ set -e
 export PYTHONUNBUFFERED="True"
 
 GPU_ID=$1
-NET=$2
 NET_lc=${NET,,}
+NET=$2
 DATASET=$3
+NET_FINAL='output/faster_rcnn_end2end/voc_2007_train/vgg16_faster_rcnn_iter_70000.caffemodel' #$4
+
+
 
 array=( $@ )
 len=${#array[@]}
@@ -44,21 +49,6 @@ case $DATASET in
     ;;
 esac
 
-LOG="experiments/logs/faster_rcnn_end2end_${NET}_${EXTRA_ARGS_SLUG}_${AUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
-exec &> >(tee -a "$LOG")
-echo Logging output to "$LOG"
-
-time ./tools/train_net.py --gpu ${GPU_ID} \
-  --solver models/${PT_DIR}/${NET}/faster_rcnn_end2end_concatenated/solver.prototxt \
-  --weights data/imagenet_models/${NET}.v2.caffemodel \
-  --imdb ${TRAIN_IMDB} \
-  --iters ${ITERS} \
-  --cfg experiments/cfgs/faster_rcnn_end2end.yml \
-  ${EXTRA_ARGS}
-
-set +x
-NET_FINAL=`grep -B 1 "done solving" ${LOG} | grep "Wrote snapshot" | awk '{print $4}'`
-set -x
 
 time ./tools/test_net.py --gpu ${GPU_ID} \
   --def models/${PT_DIR}/${NET}/faster_rcnn_end2end_concatenated/test.prototxt \
