@@ -248,3 +248,10 @@ delete py-faster-rcnn/data/VOCdevkit/annotations_cache/annots.pkl
     swig -c++ -python polyiou.i
     python setup.py build_ext --inplace
 
+# to support cuda 8.0 and cudnn 5.0
+cd caffe-fast-rcnn  
+git remote add caffe https://github.com/BVLC/caffe.git  
+git fetch caffe  
+git merge -X theirs caffe/master  
+
+Remove self_.attr("phase") = static_cast<int>(this->phase_); from include/caffe/layers/python_layer.hpp after merging.
