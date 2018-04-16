@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="46614cf1-e529-413b-a229-3726559546ff" name="Default" comment="" />
+=======
+    <list default="true" id="821b85a7-dfba-4532-be92-d26d35fe7edd" name="Default" comment="" />
+>>>>>>> e69319022721a618f1872d4bbee7f44a879ef63a
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../preprocessing/DLR" />
   </component>
+=======
+>>>>>>> e69319022721a618f1872d4bbee7f44a879ef63a
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
       <created>1523876101969</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1523876101969</updated>
+=======
+      <created>1523659214915</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1523659214915</updated>
+>>>>>>> e69319022721a618f1872d4bbee7f44a879ef63a
     </task>
     <servers />
   </component>

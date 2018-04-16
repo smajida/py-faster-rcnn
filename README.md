@@ -235,3 +235,16 @@ Downgrading to numpy 1.11.0 worked for me.
 
 # if there is an errors which says in pascal_voc: Keyerror: one of images name
 delete py-faster-rcnn/data/VOCdevkit/annotations_cache/annots.pkl
+
+
+# to add rbb polygon nms and pure python hbb nms
+
+    install swig
+
+    sudo apt-get install swig
+
+    create the c++ extension for python
+
+    swig -c++ -python polyiou.i
+    python setup.py build_ext --inplace
+

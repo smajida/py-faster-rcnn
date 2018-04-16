@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.5 virtualenv at ~/PycharmProjects/annot/tools/spaceannonation" project-jdk-type="Python SDK" />
+>>>>>>> e69319022721a618f1872d4bbee7f44a879ef63a
 </project>
