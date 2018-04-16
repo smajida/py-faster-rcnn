@@ -21,13 +21,13 @@ array=( $@ )
 len=${#array[@]}
 EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
-AUG=WithAugmentation_9Scales_3Ratios_concatenated
+AUG=WithRotationAugmentation_10Scales_3Ratios_concatenated
 case $DATASET in
   pascal_voc)
     TRAIN_IMDB="voc_2007_trainval"
     TEST_IMDB="voc_2007_val"
     PT_DIR="pascal_voc"
-    ITERS=70000
+    ITERS=150000
     ;;
   coco)
     # This is a very long and slow training schedule
@@ -49,7 +49,7 @@ exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
 time ./tools/train_net.py --gpu ${GPU_ID} \
-  --solver models/${PT_DIR}/${NET}/faster_rcnn_end2end_concatenated/solver.prototxt \
+  --solver models/${PT_DIR}/${NET}/faster_rcnn_end2end/solver.prototxt \
   --weights data/imagenet_models/${NET}.v2.caffemodel \
   --imdb ${TRAIN_IMDB} \
   --iters ${ITERS} \
